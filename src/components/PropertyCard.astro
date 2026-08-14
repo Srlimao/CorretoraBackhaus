@@ -1,0 +1,174 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import { Image } from 'astro:assets';
+import Icons from './Icons.astro';
+import { formatCurrency, formatArea, formatBedrooms, formatSuites, formatParkingSpots, getStatusBadgeInfo } from '../utils/formatters';
+import { getPropertyThumbnail } from '../utils/gallery';
+import { buildWhatsAppUrl } from '../utils/whatsapp';
+
+export interface Props {
+  property: CollectionEntry<'empreendimentos'>;
+}
+
+const { property } = Astro.props;
+const { data, slug } = property;
+const basePath = '/CorretoraBackhaus';
+
+const thumbnail = getPropertyThumbnail(slug);
+const statusBadge = getStatusBadgeInfo(data.status);
+const detailUrl = `${basePath}/empreendimentos/${slug}`;
+
+const whatsappUrl = buildWhatsAppUrl({
+  propertyTitle: data.title,
+  propertyCity: data.location.city,
+  propertyNeighborhood: data.location.neighborhood,
+});
+---
+
+<article
+  class="property-card group bg-white rounded-2xl overflow-hidden border border-slate-200/80 hover:border-gold-400/60 shadow-sm hover:shadow-premium transition-all duration-300 flex flex-col h-full"
+  data-status={data.status}
+  data-city={data.location.city}
+  data-category={data.category}
+  data-bedrooms={data.specs.bedrooms.join(',')}
+  data-price={data.priceFrom || 0}
+  data-search={`${data.title} ${data.location.neighborhood} ${data.location.city} ${data.tagline}`.toLowerCase()}
+>
+  <!-- Thumbnail & Badges Container -->
+  <div class="relative aspect-[16/10] overflow-hidden bg-slate-900">
+    <a href={detailUrl} class="block w-full h-full">
+      {thumbnail ? (
+        <Image
+          src={thumbnail}
+          alt={data.title}
+          width={600}
+          height={375}
+          class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 ease-out"
+          loading="lazy"
+        />
+      ) : (
+        <div class="w-full h-full flex items-center justify-center bg-navy-900 text-slate-400">
+          <Icons name="building" size={48} />
+        </div>
+      )}
+    </a>
+
+    <!-- Overlay Gradient -->
+    <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent pointer-events-none"></div>
+
+    <!-- Status Badge (Top Left) -->
+    <div class="absolute top-3 left-3 z-10">
+      <span class={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider backdrop-blur-md border ${statusBadge.bgClass} ${statusBadge.textClass} ${statusBadge.borderClass} shadow-md`}>
+        <span class="w-1.5 h-1.5 rounded-full bg-current"></span>
+        <span>{statusBadge.label}</span>
+      </span>
+    </div>
+
+    <!-- Distance to beach / Feature Pill (Top Right) -->
+    {data.location.distanceToBeach && (
+      <div class="absolute top-3 right-3 z-10">
+        <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-semibold bg-navy-950/80 text-gold-300 border border-gold-500/30 backdrop-blur-md shadow-sm">
+          <span>🌊</span>
+          <span>{data.location.distanceToBeach}</span>
+        </span>
+      </div>
+    )}
+
+    <!-- Category & Neighborhood (Bottom Left of Thumbnail) -->
+    <div class="absolute bottom-3 left-3 right-3 z-10 flex items-center justify-between text-white text-xs pointer-events-none">
+      <span class="font-medium text-slate-200 drop-shadow-md flex items-center gap-1">
+        <Icons name="map-pin" size={13} class="text-gold-400 inline" />
+        <span>{data.location.neighborhood}, {data.location.city} - {data.location.state}</span>
+      </span>
+      {data.featured && (
+        <span class="px-2 py-0.5 rounded bg-gold-500 text-navy-950 font-bold text-[10px] uppercase tracking-wider">
+          Destaque
+        </span>
+      )}
+    </div>
+  </div>
+
+  <!-- Card Body -->
+  <div class="p-5 sm:p-6 flex flex-col flex-grow">
+    
+    <!-- Title & Tagline -->
+    <div class="mb-4">
+      <h3 class="text-xl font-bold font-display text-slate-900 group-hover:text-navy-700 transition-colors line-clamp-1">
+        <a href={detailUrl}>
+          {data.title}
+        </a>
+      </h3>
+      <p class="text-xs sm:text-sm text-slate-500 mt-1 line-clamp-2 leading-relaxed">
+        {data.tagline}
+      </p>
+    </div>
+
+    <!-- Specs Grid -->
+    <div class="grid grid-cols-3 gap-2 py-3 border-y border-slate-100 mb-4 text-slate-600 text-xs">
+      
+      <!-- Area -->
+      <div class="flex flex-col items-center text-center p-2 rounded-xl bg-slate-50 border border-slate-100">
+        <Icons name="maximize" size={16} class="text-navy-600 mb-1" />
+        <span class="font-bold text-slate-800 text-[11px] sm:text-xs">{formatArea(data.specs.areaMin, data.specs.areaMax)}</span>
+        <span class="text-[10px] text-slate-400 uppercase">Privativos</span>
+      </div>
+
+      <!-- Bedrooms / Suites -->
+      <div class="flex flex-col items-center text-center p-2 rounded-xl bg-slate-50 border border-slate-100">
+        <Icons name="bed" size={16} class="text-navy-600 mb-1" />
+        <span class="font-bold text-slate-800 text-[11px] sm:text-xs">
+          {data.specs.suites && data.specs.suites.length > 0 ? formatSuites(data.specs.suites) : formatBedrooms(data.specs.bedrooms)}
+        </span>
+        <span class="text-[10px] text-slate-400 uppercase">Dormitórios</span>
+      </div>
+
+      <!-- Parking -->
+      <div class="flex flex-col items-center text-center p-2 rounded-xl bg-slate-50 border border-slate-100">
+        <Icons name="car" size={16} class="text-navy-600 mb-1" />
+        <span class="font-bold text-slate-800 text-[11px] sm:text-xs">
+          {formatParkingSpots(data.specs.parkingSpots) || 'Consulte'}
+        </span>
+        <span class="text-[10px] text-slate-400 uppercase">Garagem</span>
+      </div>
+    </div>
+
+    <!-- Price and Delivery Info -->
+    <div class="mt-auto pt-2 flex items-end justify-between">
+      <div>
+        <span class="block text-[11px] font-medium text-slate-400 uppercase tracking-wider">Valor a partir de</span>
+        <div class="text-lg sm:text-xl font-bold font-display text-navy-900">
+          {formatCurrency(data.priceFrom)}
+        </div>
+      </div>
+
+      {data.deliveryDate && (
+        <div class="text-right text-[11px] text-slate-500 font-medium">
+          <span class="block text-[10px] text-slate-400 uppercase">Previsão</span>
+          <span class="text-slate-700 font-semibold">{data.deliveryDate}</span>
+        </div>
+      )}
+    </div>
+
+    <!-- Action Buttons -->
+    <div class="grid grid-cols-2 gap-2.5 mt-4 pt-3 border-t border-slate-100">
+      <a
+        href={detailUrl}
+        class="w-full py-2.5 px-3 rounded-xl border border-slate-200 hover:border-navy-700 bg-slate-50 hover:bg-navy-900 text-slate-700 hover:text-white text-xs font-bold text-center transition-all duration-200 flex items-center justify-center gap-1.5"
+      >
+        <span>Ver Detalhes</span>
+        <Icons name="chevron-right" size={14} />
+      </a>
+
+      <a
+        href={whatsappUrl}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="w-full py-2.5 px-3 rounded-xl bg-whatsapp hover:bg-whatsapp-dark text-white text-xs font-bold text-center shadow-sm hover:shadow-md transition-all duration-200 flex items-center justify-center gap-1.5"
+      >
+        <Icons name="whatsapp" size={15} />
+        <span>Consultar</span>
+      </a>
+    </div>
+
+  </div>
+</article>

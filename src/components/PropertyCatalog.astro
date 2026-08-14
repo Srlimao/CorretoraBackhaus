@@ -1,0 +1,313 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import PropertyCard from './PropertyCard.astro';
+import Icons from './Icons.astro';
+
+export interface Props {
+  properties: CollectionEntry<'empreendimentos'>[];
+}
+
+const { properties } = Astro.props;
+
+// Extract unique cities and categories for filter dropdowns
+const cities = Array.from(new Set(properties.map(p => p.data.location.city))).sort();
+const categories = Array.from(new Set(properties.map(p => p.data.category))).sort();
+---
+
+<section id="catalogo" class="py-16 sm:py-24 bg-slate-50 relative scroll-mt-20">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    
+    <!-- Section Header -->
+    <div class="flex flex-col md:flex-row md:items-end justify-between mb-10 pb-6 border-b border-slate-200">
+      <div>
+        <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-gold-100 text-gold-800 text-xs font-bold uppercase tracking-wider mb-3">
+          <Icons name="building" size={14} class="text-gold-600" />
+          <span>Portfólio Exclusivo</span>
+        </div>
+        <h2 class="text-3xl sm:text-4xl font-bold font-display text-slate-900">
+          Nossos Empreendimentos
+        </h2>
+        <p class="text-slate-500 text-sm sm:text-base mt-2 max-w-xl">
+          Explore os melhores lançamentos, empreendimentos em obras e imóveis prontos no litoral norte de Santa Catarina.
+        </p>
+      </div>
+
+      <!-- Result Counter -->
+      <div class="mt-4 md:mt-0">
+        <span id="catalog-counter" class="inline-flex items-center px-3.5 py-1.5 rounded-xl bg-white border border-slate-200 text-slate-700 text-xs font-semibold shadow-sm">
+          Exibindo {properties.length} imóveis
+        </span>
+      </div>
+    </div>
+
+    <!-- Interactive Filters Container -->
+    <div class="bg-white rounded-2xl p-5 sm:p-6 border border-slate-200 shadow-sm mb-10 space-y-4">
+      
+      <!-- Top Row: Status Quick Tabs -->
+      <div class="flex items-center gap-2 overflow-x-auto pb-2 scrollbar-none">
+        <button
+          type="button"
+          class="status-filter-btn px-4 py-2 rounded-xl text-xs font-bold transition-all whitespace-nowrap bg-navy-900 text-white shadow-sm"
+          data-status="all"
+        >
+          Todos os Imóveis
+        </button>
+        <button
+          type="button"
+          class="status-filter-btn px-4 py-2 rounded-xl text-xs font-bold transition-all whitespace-nowrap bg-slate-100 hover:bg-slate-200 text-slate-700"
+          data-status="Lancamento"
+        >
+          Lançamentos
+        </button>
+        <button
+          type="button"
+          class="status-filter-btn px-4 py-2 rounded-xl text-xs font-bold transition-all whitespace-nowrap bg-slate-100 hover:bg-slate-200 text-slate-700"
+          data-status="Em Obras"
+        >
+          Em Obras
+        </button>
+        <button
+          type="button"
+          class="status-filter-btn px-4 py-2 rounded-xl text-xs font-bold transition-all whitespace-nowrap bg-slate-100 hover:bg-slate-200 text-slate-700"
+          data-status="Pronto para Morar"
+        >
+          Pronto para Morar
+        </button>
+      </div>
+
+      <!-- Bottom Row: Search + Dropdowns -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3 pt-2">
+        
+        <!-- Search Input -->
+        <div class="relative sm:col-span-2 lg:col-span-1">
+          <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
+            <Icons name="search" size={16} />
+          </div>
+          <input
+            type="text"
+            id="search-input"
+            placeholder="Buscar por nome, bairro..."
+            class="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-200 bg-slate-50 focus:bg-white focus:border-navy-600 focus:ring-2 focus:ring-navy-600/20 text-xs text-slate-800 placeholder-slate-400 transition-all outline-none"
+          />
+        </div>
+
+        <!-- City Dropdown -->
+        <div class="relative">
+          <select
+            id="city-filter"
+            class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 bg-slate-50 focus:bg-white focus:border-navy-600 focus:ring-2 focus:ring-navy-600/20 text-xs text-slate-800 transition-all outline-none cursor-pointer appearance-none"
+          >
+            <option value="all">Todas as Cidades</option>
+            {cities.map(city => (
+              <option value={city}>{city}</option>
+            ))}
+          </select>
+          <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none text-slate-400">
+            <Icons name="chevron-right" size={14} class="rotate-90" />
+          </div>
+        </div>
+
+        <!-- Category Dropdown -->
+        <div class="relative">
+          <select
+            id="category-filter"
+            class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 bg-slate-50 focus:bg-white focus:border-navy-600 focus:ring-2 focus:ring-navy-600/20 text-xs text-slate-800 transition-all outline-none cursor-pointer appearance-none"
+          >
+            <option value="all">Todas as Categorias</option>
+            {categories.map(cat => (
+              <option value={cat}>{cat}</option>
+            ))}
+          </select>
+          <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none text-slate-400">
+            <Icons name="chevron-right" size={14} class="rotate-90" />
+          </div>
+        </div>
+
+        <!-- Bedrooms Filter -->
+        <div class="relative">
+          <select
+            id="bedroom-filter"
+            class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 bg-slate-50 focus:bg-white focus:border-navy-600 focus:ring-2 focus:ring-navy-600/20 text-xs text-slate-800 transition-all outline-none cursor-pointer appearance-none"
+          >
+            <option value="all">Quartos (Todos)</option>
+            <option value="2">2+ Dormitórios</option>
+            <option value="3">3+ Dormitórios</option>
+            <option value="4">4+ Dormitórios</option>
+          </select>
+          <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none text-slate-400">
+            <Icons name="chevron-right" size={14} class="rotate-90" />
+          </div>
+        </div>
+
+        <!-- Clear Filters Button -->
+        <div>
+          <button
+            type="button"
+            id="reset-filters-btn"
+            class="w-full py-2.5 px-4 rounded-xl border border-slate-200 hover:border-slate-300 bg-white hover:bg-slate-100 text-slate-600 text-xs font-semibold transition-all flex items-center justify-center gap-2"
+          >
+            <Icons name="close" size={14} />
+            <span>Limpar Filtros</span>
+          </button>
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- Properties Grid -->
+    <div id="properties-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      {properties.map(property => (
+        <div class="property-grid-item">
+          <PropertyCard property={property} />
+        </div>
+      ))}
+    </div>
+
+    <!-- Empty State (Hidden by default) -->
+    <div id="no-results-state" class="hidden text-center py-16 px-4 bg-white rounded-2xl border border-dashed border-slate-300">
+      <div class="w-16 h-16 rounded-full bg-slate-100 flex items-center justify-center mx-auto text-slate-400 mb-4">
+        <Icons name="search" size={28} />
+      </div>
+      <h3 class="text-lg font-bold font-display text-slate-800">Nenhum empreendimento encontrado</h3>
+      <p class="text-sm text-slate-500 max-w-md mx-auto mt-1 mb-6">
+        Tente ajustar os filtros de pesquisa ou fale diretamente com a corretora para opções exclusivas fora da vitrine.
+      </p>
+      <button
+        type="button"
+        id="empty-reset-btn"
+        class="px-5 py-2.5 rounded-xl bg-navy-900 hover:bg-navy-800 text-white text-xs font-bold transition-colors"
+      >
+        Limpar Filtros e Ver Todos
+      </button>
+    </div>
+
+  </div>
+</section>
+
+<script>
+  function initCatalogFilters() {
+    const searchInput = document.getElementById('search-input') as HTMLInputElement | null;
+    const cityFilter = document.getElementById('city-filter') as HTMLSelectElement | null;
+    const categoryFilter = document.getElementById('category-filter') as HTMLSelectElement | null;
+    const bedroomFilter = document.getElementById('bedroom-filter') as HTMLSelectElement | null;
+    const resetBtn = document.getElementById('reset-filters-btn');
+    const emptyResetBtn = document.getElementById('empty-reset-btn');
+    const statusBtns = document.querySelectorAll('.status-filter-btn');
+    const cards = document.querySelectorAll('.property-card');
+    const counter = document.getElementById('catalog-counter');
+    const noResults = document.getElementById('no-results-state');
+
+    let activeStatus = 'all';
+
+    function filterProperties() {
+      const searchTerm = searchInput ? searchInput.value.toLowerCase().trim() : '';
+      const selectedCity = cityFilter ? cityFilter.value : 'all';
+      const selectedCategory = categoryFilter ? categoryFilter.value : 'all';
+      const selectedBedrooms = bedroomFilter ? bedroomFilter.value : 'all';
+
+      let visibleCount = 0;
+
+      cards.forEach(card => {
+        const item = card.closest('.property-grid-item') as HTMLElement | null;
+        if (!item) return;
+
+        const cardStatus = card.getAttribute('data-status') || '';
+        const cardCity = card.getAttribute('data-city') || '';
+        const cardCategory = card.getAttribute('data-category') || '';
+        const cardBedroomsStr = card.getAttribute('data-bedrooms') || '';
+        const cardSearch = card.getAttribute('data-search') || '';
+
+        const bedroomsList = cardBedroomsStr.split(',').map(n => parseInt(n.trim(), 10));
+        const maxBedroomsInCard = Math.max(...bedroomsList, 0);
+
+        // Status match
+        const matchesStatus = activeStatus === 'all' || cardStatus === activeStatus;
+
+        // City match
+        const matchesCity = selectedCity === 'all' || cardCity === selectedCity;
+
+        // Category match
+        const matchesCategory = selectedCategory === 'all' || cardCategory === selectedCategory;
+
+        // Bedrooms match
+        let matchesBedrooms = true;
+        if (selectedBedrooms !== 'all') {
+          const reqBeds = parseInt(selectedBedrooms, 10);
+          matchesBedrooms = maxBedroomsInCard >= reqBeds;
+        }
+
+        // Search text match
+        const matchesSearch = !searchTerm || cardSearch.includes(searchTerm);
+
+        if (matchesStatus && matchesCity && matchesCategory && matchesBedrooms && matchesSearch) {
+          item.classList.remove('hidden');
+          visibleCount++;
+        } else {
+          item.classList.add('hidden');
+        }
+      });
+
+      // Update counter text
+      if (counter) {
+        counter.textContent = `Exibindo ${visibleCount} ${visibleCount === 1 ? 'imóvel' : 'imóveis'}`;
+      }
+
+      // Toggle no results state
+      if (noResults) {
+        if (visibleCount === 0) {
+          noResults.classList.remove('hidden');
+        } else {
+          noResults.classList.add('hidden');
+        }
+      }
+    }
+
+    // Status Tab Buttons
+    statusBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        statusBtns.forEach(b => {
+          b.classList.remove('bg-navy-900', 'text-white', 'shadow-sm');
+          b.classList.add('bg-slate-100', 'text-slate-700');
+        });
+
+        btn.classList.remove('bg-slate-100', 'text-slate-700');
+        btn.classList.add('bg-navy-900', 'text-white', 'shadow-sm');
+
+        activeStatus = btn.getAttribute('data-status') || 'all';
+        filterProperties();
+      });
+    });
+
+    // Inputs event listeners
+    if (searchInput) searchInput.addEventListener('input', filterProperties);
+    if (cityFilter) cityFilter.addEventListener('change', filterProperties);
+    if (categoryFilter) categoryFilter.addEventListener('change', filterProperties);
+    if (bedroomFilter) bedroomFilter.addEventListener('change', filterProperties);
+
+    function resetAll() {
+      if (searchInput) searchInput.value = '';
+      if (cityFilter) cityFilter.value = 'all';
+      if (categoryFilter) categoryFilter.value = 'all';
+      if (bedroomFilter) bedroomFilter.value = 'all';
+
+      activeStatus = 'all';
+      statusBtns.forEach((b, idx) => {
+        if (idx === 0) {
+          b.classList.remove('bg-slate-100', 'text-slate-700');
+          b.classList.add('bg-navy-900', 'text-white', 'shadow-sm');
+        } else {
+          b.classList.remove('bg-navy-900', 'text-white', 'shadow-sm');
+          b.classList.add('bg-slate-100', 'text-slate-700');
+        }
+      });
+
+      filterProperties();
+    }
+
+    if (resetBtn) resetBtn.addEventListener('click', resetAll);
+    if (emptyResetBtn) emptyResetBtn.addEventListener('click', resetAll);
+  }
+
+  document.addEventListener('DOMContentLoaded', initCatalogFilters);
+</script>

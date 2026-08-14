@@ -1,0 +1,85 @@
+---
+import Navbar from '../components/Navbar.astro';
+import Footer from '../components/Footer.astro';
+import '../styles/global.css';
+
+export interface Props {
+  title: string;
+  description?: string;
+  image?: string;
+  article?: boolean;
+}
+
+const {
+  title,
+  description = 'Imóveis de alto padrão e lançamentos exclusivos no Litoral Norte de Santa Catarina. Itapema, Balneário Camboriú, Porto Belo e Bombinhas com Cátia Backhaus Corretora de Imóveis.',
+  image = '/images/catia-backhaus.jpg',
+  article = false,
+} = Astro.props;
+
+const siteUrl = 'https://srlimao.github.io';
+const basePath = '/CorretoraBackhaus';
+const canonicalUrl = new URL(Astro.url.pathname, siteUrl).href;
+const ogImageUrl = image.startsWith('http') ? image : `${siteUrl}${basePath}${image.startsWith('/') ? '' : '/'}${image}`;
+const fullTitle = title.includes('Corretora Backhaus') ? title : `${title} | Corretora Backhaus`;
+---
+
+<!doctype html>
+<html lang="pt-BR" class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href={`${basePath}/favicon.svg`} />
+    <meta name="generator" content={Astro.generator} />
+
+    <!-- Primary Meta Tags -->
+    <title>{fullTitle}</title>
+    <meta name="title" content={fullTitle} />
+    <meta name="description" content={description} />
+    <meta name="author" content="Cátia Backhaus - Corretora de Imóveis" />
+    <link rel="canonical" href={canonicalUrl} />
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content={article ? 'article' : 'website'} />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={ogImageUrl} />
+    <meta property="og:locale" content="pt_BR" />
+    <meta property="og:site_name" content="Corretora Backhaus - Imóveis no Litoral SC" />
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:url" content={canonicalUrl} />
+    <meta property="twitter:title" content={fullTitle} />
+    <meta property="twitter:description" content={description} />
+    <meta property="twitter:image" content={ogImageUrl} />
+
+    <!-- Schema.org JSON-LD -->
+    <script is:inline type="application/ld+json" set:html={JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "RealEstateAgent",
+      "name": "Corretora Backhaus - Cátia Backhaus",
+      "image": ogImageUrl,
+      "url": `${siteUrl}${basePath}`,
+      "telephone": "+5551993835822",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Canoas",
+        "addressRegion": "RS",
+        "addressCountry": "BR"
+      },
+      "areaServed": ["Canoas", "Porto Alegre", "Cachoeirinha", "Gravataí"],
+      "description": description
+    })} />
+  </head>
+  <body class="min-h-screen bg-slate-50 text-slate-900 flex flex-col selection:bg-navy-800 selection:text-gold-400">
+    <Navbar />
+    
+    <main class="flex-grow">
+      <slot />
+    </main>
+
+    <Footer />
+  </body>
+</html>

@@ -1,0 +1,80 @@
+---
+import Icons from './Icons.astro';
+import { buildWhatsAppUrl } from '../utils/whatsapp';
+
+const whatsappUrl = buildWhatsAppUrl();
+---
+
+<section class="relative bg-navy-950 text-white overflow-hidden hero-gradient pt-12 pb-20 lg:pt-20 lg:pb-28 border-b border-navy-800/80">
+  <!-- Subtle decorative ambient background elements -->
+  <div class="absolute inset-0 pointer-events-none overflow-hidden">
+    <div class="absolute -top-40 -right-40 w-96 h-96 bg-gold-500/10 rounded-full blur-3xl"></div>
+    <div class="absolute top-1/2 -left-40 w-96 h-96 bg-navy-600/20 rounded-full blur-3xl"></div>
+  </div>
+
+  <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="text-center max-w-3xl mx-auto space-y-6">
+      
+      <!-- Trust badge -->
+      <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-navy-800/80 border border-gold-500/30 text-gold-300 text-xs font-semibold uppercase tracking-wider backdrop-blur-md shadow-sm">
+        <Icons name="sparkles" size={14} class="text-gold-400" />
+        <span>Cátia Backhaus • Corretora de Imóveis • CRECI 81350</span>
+      </div>
+
+      <!-- Main Headline -->
+      <h1 class="text-4xl sm:text-5xl lg:text-6xl font-bold font-display tracking-tight text-white leading-tight">
+        Seu Sonho <span class="gold-gradient-text">Mora Aqui</span>
+      </h1>
+
+      <!-- Subtitle -->
+      <p class="text-lg sm:text-xl text-slate-300 font-normal leading-relaxed">
+        Lançamentos e empreendimentos com infraestrutura de clube, condições facilitadas pelo <strong class="text-white font-semibold">Minha Casa Minha Vida</strong> e financiamento Caixa.
+      </p>
+
+      <!-- Primary Action CTAs -->
+      <div class="flex flex-wrap items-center justify-center gap-4 pt-2">
+        <a
+          href="#catalogo"
+          class="px-7 py-3.5 rounded-xl bg-gradient-to-r from-gold-500 to-amber-600 hover:from-gold-400 hover:to-amber-500 text-navy-950 font-bold text-sm shadow-glow transition-all duration-200 transform hover:-translate-y-0.5 flex items-center gap-2"
+        >
+          <Icons name="building" size={18} />
+          <span>Ver Empreendimentos</span>
+        </a>
+
+        <a
+          href={whatsappUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="px-7 py-3.5 rounded-xl bg-whatsapp hover:bg-whatsapp-dark text-white font-bold text-sm shadow-floating transition-all duration-200 transform hover:-translate-y-0.5 flex items-center gap-2"
+        >
+          <Icons name="whatsapp" size={18} />
+          <span>Falar no WhatsApp</span>
+        </a>
+      </div>
+
+      <!-- Trust Metrics / Highlights -->
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4 pt-10 border-t border-navy-800/80 text-left">
+        <div class="bg-navy-900/60 border border-navy-800 rounded-2xl p-4 backdrop-blur-sm">
+          <div class="text-gold-400 font-display text-2xl font-bold">MCMV</div>
+          <div class="text-slate-300 text-xs font-medium mt-0.5">Menores Taxas & Subsídios</div>
+        </div>
+
+        <div class="bg-navy-900/60 border border-navy-800 rounded-2xl p-4 backdrop-blur-sm">
+          <div class="text-gold-400 font-display text-2xl font-bold">CAIXA</div>
+          <div class="text-slate-300 text-xs font-medium mt-0.5">Garantia Término de Obra</div>
+        </div>
+
+        <div class="bg-navy-900/60 border border-navy-800 rounded-2xl p-4 backdrop-blur-sm">
+          <div class="text-gold-400 font-display text-2xl font-bold">Direto</div>
+          <div class="text-slate-300 text-xs font-medium mt-0.5">Entrada Facilitada</div>
+        </div>
+
+        <div class="bg-navy-900/60 border border-navy-800 rounded-2xl p-4 backdrop-blur-sm">
+          <div class="text-gold-400 font-display text-2xl font-bold">CRECI</div>
+          <div class="text-slate-300 text-xs font-medium mt-0.5">81350 • Assessoria Total</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>

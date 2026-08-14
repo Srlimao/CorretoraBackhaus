@@ -1,0 +1,276 @@
+---
+import { getCollection, type CollectionEntry } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+import VideoHero from '../../components/VideoHero.astro';
+import ImageGallery from '../../components/ImageGallery.astro';
+import StickyWhatsAppCTA from '../../components/StickyWhatsAppCTA.astro';
+import FinancingSimulator from '../../components/FinancingSimulator.astro';
+import PropertyCard from '../../components/PropertyCard.astro';
+import Icons from '../../components/Icons.astro';
+import { formatArea, formatBedrooms, formatSuites, formatParkingSpots } from '../../utils/formatters';
+import { getPropertyThumbnail, getPropertyGallery } from '../../utils/gallery';
+
+export async function getStaticPaths() {
+  const properties = await getCollection('empreendimentos');
+  return properties.map((property) => ({
+    params: { slug: property.slug },
+    props: { property },
+  }));
+}
+
+export interface Props {
+  property: CollectionEntry<'empreendimentos'>;
+}
+
+const { property } = Astro.props;
+const { data, slug } = property;
+const { Content } = await property.render();
+
+const basePath = '/CorretoraBackhaus';
+const thumbnail = getPropertyThumbnail(slug);
+const galleryItems = getPropertyGallery(slug);
+
+// Fetch related properties (excluding current)
+const allProperties = await getCollection('empreendimentos');
+const relatedProperties = allProperties
+  .filter((p) => p.slug !== slug)
+  .slice(0, 3);
+
+const pageTitle = `${data.title} em ${data.location.city} - ${data.location.neighborhood}`;
+const pageDescription = `${data.tagline} Confira fotos, vídeo, plantas e valores do ${data.title}.`;
+---
+
+<Layout
+  title={pageTitle}
+  description={pageDescription}
+  image={thumbnail ? thumbnail.src : '/images/catia-backhaus.jpg'}
+>
+  <!-- Video Hero / Media Header -->
+  <VideoHero
+    title={data.title}
+    tagline={data.tagline}
+    status={data.status}
+    category={data.category}
+    location={data.location}
+    youtubeUrl={data.youtubeUrl || data.videoUrl || data.youtubeId}
+    thumbnailImage={thumbnail}
+  />
+
+  <!-- Breadcrumbs & Sub-nav -->
+  <div class="bg-white border-b border-slate-200 py-3">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <nav class="flex items-center gap-2 text-xs text-slate-500 overflow-x-auto whitespace-nowrap">
+        <a href={`${basePath}/`} class="hover:text-navy-900 transition-colors">Início</a>
+        <Icons name="chevron-right" size={12} class="text-slate-400" />
+        <a href={`${basePath}/#catalogo`} class="hover:text-navy-900 transition-colors">Empreendimentos</a>
+        <Icons name="chevron-right" size={12} class="text-slate-400" />
+        <span class="font-medium text-slate-800">{data.location.city}</span>
+        <Icons name="chevron-right" size={12} class="text-slate-400" />
+        <span class="font-bold text-navy-900">{data.title}</span>
+      </nav>
+    </div>
+  </div>
+
+  <!-- Main Detail Content Area -->
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-start">
+      
+      <!-- Left Main Column (Span 8) -->
+      <div class="lg:col-span-8 space-y-12">
+        
+        <!-- Key Specifications Grid -->
+        <section class="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200 shadow-sm space-y-6">
+          <div class="flex items-center justify-between border-b border-slate-100 pb-4">
+            <h2 class="text-xl font-bold font-display text-slate-900 flex items-center gap-2">
+              <Icons name="building" size={20} class="text-gold-600" />
+              <span>Especificações Principais</span>
+            </h2>
+            {data.developer && (
+              <span class="text-xs text-slate-500 font-medium">
+                Construtora: <strong class="text-slate-700">{data.developer}</strong>
+              </span>
+            )}
+          </div>
+
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+            
+            <!-- Area -->
+            <div class="p-4 rounded-2xl bg-slate-50 border border-slate-100 flex flex-col items-center text-center">
+              <div class="w-10 h-10 rounded-xl bg-navy-50 text-navy-800 flex items-center justify-center mb-2">
+                <Icons name="maximize" size={20} />
+              </div>
+              <span class="text-base sm:text-lg font-bold font-display text-slate-900">
+                {formatArea(data.specs.areaMin, data.specs.areaMax)}
+              </span>
+              <span class="text-xs text-slate-500">Área Privativa</span>
+            </div>
+
+            <!-- Bedrooms -->
+            <div class="p-4 rounded-2xl bg-slate-50 border border-slate-100 flex flex-col items-center text-center">
+              <div class="w-10 h-10 rounded-xl bg-navy-50 text-navy-800 flex items-center justify-center mb-2">
+                <Icons name="bed" size={20} />
+              </div>
+              <span class="text-base sm:text-lg font-bold font-display text-slate-900">
+                {formatBedrooms(data.specs.bedrooms)}
+              </span>
+              <span class="text-xs text-slate-500">Dormitórios</span>
+            </div>
+
+            <!-- Suites -->
+            <div class="p-4 rounded-2xl bg-slate-50 border border-slate-100 flex flex-col items-center text-center">
+              <div class="w-10 h-10 rounded-xl bg-navy-50 text-navy-800 flex items-center justify-center mb-2">
+                <Icons name="award" size={20} />
+              </div>
+              <span class="text-base sm:text-lg font-bold font-display text-slate-900">
+                {data.specs.suites && data.specs.suites.length > 0 ? formatSuites(data.specs.suites) : 'Consulte'}
+              </span>
+              <span class="text-xs text-slate-500">Suítes Plenas</span>
+            </div>
+
+            <!-- Parking -->
+            <div class="p-4 rounded-2xl bg-slate-50 border border-slate-100 flex flex-col items-center text-center">
+              <div class="w-10 h-10 rounded-xl bg-navy-50 text-navy-800 flex items-center justify-center mb-2">
+                <Icons name="car" size={20} />
+              </div>
+              <span class="text-base sm:text-lg font-bold font-display text-slate-900">
+                {formatParkingSpots(data.specs.parkingSpots) || 'Consulte'}
+              </span>
+              <span class="text-xs text-slate-500">Vagas Garagem</span>
+            </div>
+
+          </div>
+        </section>
+
+        <!-- Highlights & Differentials -->
+        {data.highlights && data.highlights.length > 0 && (
+          <section class="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200 shadow-sm space-y-6">
+            <h2 class="text-xl font-bold font-display text-slate-900 flex items-center gap-2 border-b border-slate-100 pb-4">
+              <Icons name="sparkles" size={20} class="text-gold-600" />
+              <span>Diferenciais & Área de Lazer</span>
+            </h2>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+              {data.highlights.map((highlight) => (
+                <div class="flex items-start gap-3 p-3 rounded-xl bg-slate-50 border border-slate-100/80">
+                  <div class="mt-0.5 w-5 h-5 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center flex-shrink-0">
+                    <Icons name="check" size={13} />
+                  </div>
+                  <span class="text-xs sm:text-sm font-semibold text-slate-800 leading-snug">{highlight}</span>
+                </div>
+              ))}
+            </div>
+          </section>
+        )}
+
+        <!-- Photo & Floorplan Gallery -->
+        <ImageGallery galleryItems={galleryItems} propertyTitle={data.title} />
+
+        <!-- Markdown Rich Description Content -->
+        <section class="bg-white rounded-3xl p-6 sm:p-10 border border-slate-200 shadow-sm">
+          <article class="prose prose-slate max-w-none prose-headings:font-display prose-headings:font-bold prose-h2:text-2xl prose-h2:text-navy-950 prose-h3:text-lg prose-h3:text-slate-800 prose-p:text-slate-600 prose-p:leading-relaxed prose-li:text-slate-600 prose-strong:text-slate-900">
+            <Content />
+          </article>
+        </section>
+
+        <!-- Investment Highlights Card (If applicable) -->
+        {data.investmentHighlights && data.investmentHighlights.length > 0 && (
+          <section class="bg-gradient-to-br from-navy-950 to-navy-900 text-white rounded-3xl p-6 sm:p-8 border border-navy-800 shadow-lg space-y-4">
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-gold-500/20 text-gold-300 border border-gold-500/30 text-xs font-bold uppercase tracking-wider">
+              <Icons name="sparkles" size={14} class="text-gold-400" />
+              <span>Potencial de Investimento</span>
+            </div>
+
+            <h3 class="text-2xl font-bold font-display text-white">
+              Por que investir no {data.title}?
+            </h3>
+
+            <div class="space-y-3 pt-2">
+              {data.investmentHighlights.map((item) => (
+                <div class="flex items-start gap-3 text-slate-200 text-sm">
+                  <div class="mt-1 w-4 h-4 rounded-full bg-gold-500/30 text-gold-400 flex items-center justify-center flex-shrink-0">
+                    <Icons name="check" size={12} />
+                  </div>
+                  <p class="leading-relaxed">{item}</p>
+                </div>
+              ))}
+            </div>
+          </section>
+        )}
+
+        <!-- Interactive Financing Simulator -->
+        <FinancingSimulator
+          propertyTitle={data.title}
+          priceFrom={data.priceFrom}
+          whatsappNumber={data.whatsappNumber}
+        />
+
+        <!-- Location Section -->
+        <section class="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200 shadow-sm space-y-4">
+          <h3 class="text-xl font-bold font-display text-slate-900 flex items-center gap-2">
+            <Icons name="map-pin" size={20} class="text-gold-600" />
+            <span>Localização do Imóvel</span>
+          </h3>
+
+          <p class="text-slate-600 text-sm">
+            {data.location.address || `${data.location.neighborhood}, ${data.location.city} - ${data.location.state}`}
+          </p>
+
+          <div class="p-6 rounded-2xl bg-slate-50 border border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div>
+              <div class="text-sm font-bold text-slate-900">{data.location.neighborhood} • {data.location.city}</div>
+              <div class="text-xs text-slate-500 mt-0.5">
+                {data.location.distanceToBeach ? `Distância da orla: ${data.location.distanceToBeach}` : 'Excelente localização no litoral'}
+              </div>
+            </div>
+
+            <a
+              href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${data.title} ${data.location.neighborhood} ${data.location.city} SC`)}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="px-5 py-2.5 rounded-xl bg-navy-900 hover:bg-navy-800 text-white text-xs font-bold transition-colors flex items-center gap-2"
+            >
+              <Icons name="map-pin" size={14} class="text-gold-400" />
+              <span>Ver no Google Maps</span>
+              <Icons name="external-link" size={12} class="opacity-70" />
+            </a>
+          </div>
+        </section>
+
+      </div>
+
+      <!-- Right Column: Conversion Sidebar (Span 4) -->
+      <div class="lg:col-span-4">
+        <StickyWhatsAppCTA
+          propertyTitle={data.title}
+          propertyCity={data.location.city}
+          propertyNeighborhood={data.location.neighborhood}
+          priceFrom={data.priceFrom}
+          whatsappNumber={data.whatsappNumber}
+          deliveryDate={data.deliveryDate}
+        />
+      </div>
+
+    </div>
+
+    <!-- Related Properties Section -->
+    {relatedProperties.length > 0 && (
+      <section class="mt-20 pt-12 border-t border-slate-200 space-y-8">
+        <div>
+          <h2 class="text-2xl sm:text-3xl font-bold font-display text-slate-900">
+            Outros Empreendimentos que Podem te Interessar
+          </h2>
+          <p class="text-slate-500 text-sm mt-1">
+            Opções selecionadas com o mesmo padrão de qualidade e localização privilegiada.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+          {relatedProperties.map((prop) => (
+            <PropertyCard property={prop} />
+          ))}
+        </div>
+      </section>
+    )}
+
+  </div>
+</Layout>

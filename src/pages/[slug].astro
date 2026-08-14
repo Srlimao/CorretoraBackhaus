@@ -1,0 +1,35 @@
+---
+import { getCollection, type CollectionEntry } from 'astro:content';
+
+export async function getStaticPaths() {
+  const properties = await getCollection('empreendimentos');
+  return properties.map((property) => ({
+    params: { slug: property.slug },
+    props: { property },
+  }));
+}
+
+export interface Props {
+  property: CollectionEntry<'empreendimentos'>;
+}
+
+const { property } = Astro.props;
+const basePath = '/CorretoraBackhaus';
+const targetUrl = `${basePath}/empreendimentos/${property.slug}`;
+---
+
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="refresh" content={`0;url=${targetUrl}`} />
+    <title>Redirecionando para {property.data.title}...</title>
+    <link rel="canonical" href={`https://srlimao.github.io${targetUrl}`} />
+  </head>
+  <body class="bg-slate-900 text-white flex items-center justify-center min-h-screen">
+    <div class="text-center space-y-4">
+      <p class="text-slate-400 text-sm">Redirecionando para <strong class="text-white">{property.data.title}</strong>...</p>
+      <a href={targetUrl} class="text-gold-400 underline text-xs">Clique aqui se não for redirecionado automaticamente</a>
+    </div>
+  </body>
+</html>

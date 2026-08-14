@@ -1,0 +1,32 @@
+name: Automated Tests & Validation
+
+on:
+  push:
+    branches-ignore: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Código
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      - name: Instalar Dependências
+        run: npm ci
+
+      - name: Validar Estrutura de Pastas e Mídias
+        run: npm run validate
+
+      - name: Validar Tipos e Schemas do Astro
+        run: npm run check
+
+      - name: Executar Build Estático de Teste
+        run: npm run build

@@ -1,0 +1,46 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Icons from '../components/Icons.astro';
+
+const basePath = '/CorretoraBackhaus';
+---
+
+<Layout
+  title="Página Não Encontrada | Corretora Backhaus"
+  description="A página que você procura não foi encontrada ou o imóvel foi atualizado."
+>
+  <div class="min-h-[70vh] flex items-center justify-center py-20 px-4">
+    <div class="max-w-md w-full text-center space-y-6 bg-white p-8 sm:p-10 rounded-3xl border border-slate-200 shadow-premium">
+      
+      <div class="w-16 h-16 rounded-2xl bg-gold-100 text-gold-700 flex items-center justify-center mx-auto">
+        <Icons name="building" size={32} />
+      </div>
+
+      <div class="space-y-2">
+        <h1 class="text-3xl font-bold font-display text-slate-900">404</h1>
+        <h2 class="text-lg font-semibold text-slate-800">Página Não Encontrada</h2>
+        <p class="text-sm text-slate-500 leading-relaxed">
+          O empreendimento ou página que você buscou pode ter sido renomeado, vendido ou movido.
+        </p>
+      </div>
+
+      <div class="pt-4 flex flex-col gap-3">
+        <a
+          href={`${basePath}/`}
+          class="w-full py-3.5 px-4 rounded-xl bg-navy-900 hover:bg-navy-800 text-white text-xs font-bold transition-all shadow-md flex items-center justify-center gap-2"
+        >
+          <Icons name="building" size={16} class="text-gold-400" />
+          <span>Voltar para a Página Inicial</span>
+        </a>
+
+        <a
+          href={`${basePath}/#catalogo`}
+          class="w-full py-3 px-4 rounded-xl border border-slate-200 hover:bg-slate-50 text-slate-700 text-xs font-semibold transition-all"
+        >
+          Ver Catálogo Completo de Imóveis
+        </a>
+      </div>
+
+    </div>
+  </div>
+</Layout>

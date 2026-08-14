@@ -1,0 +1,228 @@
+---
+import Icons from './Icons.astro';
+
+export interface Props {
+  propertyTitle: string;
+  priceFrom?: number;
+  whatsappNumber?: string;
+}
+
+const { propertyTitle, priceFrom = 229000, whatsappNumber = '5551993835822' } = Astro.props;
+---
+
+<section class="my-12 bg-white rounded-3xl p-6 sm:p-8 border border-slate-200/90 shadow-sm" id="simulador">
+  
+  <div class="flex items-center gap-2 px-3 py-1 rounded-full bg-navy-50 text-navy-800 text-xs font-bold uppercase tracking-wider w-fit mb-3">
+    <Icons name="calculator" size={14} class="text-navy-600" />
+    <span>Planejamento Financeiro</span>
+  </div>
+
+  <h3 class="text-2xl font-bold font-display text-slate-900">
+    Simulador de Fluxo de Pagamento
+  </h3>
+  <p class="text-slate-500 text-xs sm:text-sm mt-1 mb-6">
+    Simule uma estimativa de entrada e parcelamento direto com a construtora para o empreendimento <strong class="text-slate-700">{propertyTitle}</strong>.
+  </p>
+
+  <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+    
+    <!-- Controls Column -->
+    <div class="lg:col-span-6 space-y-5">
+      
+      <!-- Valor do Imóvel -->
+      <div>
+        <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">
+          Valor do Imóvel (R$)
+        </label>
+        <input
+          type="number"
+          id="sim-price"
+          value={priceFrom}
+          step="10000"
+          class="w-full px-4 py-3 rounded-xl border border-slate-200 bg-slate-50 focus:bg-white focus:border-navy-600 focus:ring-2 focus:ring-navy-600/20 text-sm font-bold text-slate-800 outline-none"
+        />
+      </div>
+
+      <!-- Percentual de Entrada -->
+      <div>
+        <div class="flex justify-between items-center mb-2">
+          <label class="text-xs font-bold text-slate-700 uppercase tracking-wider">
+            Entrada (<span id="sim-down-percent-label">20</span>%)
+          </label>
+          <span id="sim-down-val-label" class="text-xs font-bold text-navy-900">R$ 300.000</span>
+        </div>
+        <input
+          type="range"
+          id="sim-down-slider"
+          min="10"
+          max="50"
+          step="5"
+          value="20"
+          class="w-full accent-navy-800 cursor-pointer"
+        />
+      </div>
+
+      <!-- Quantidade de Parcelas Mensais -->
+      <div>
+        <div class="flex justify-between items-center mb-2">
+          <label class="text-xs font-bold text-slate-700 uppercase tracking-wider">
+            Parcelas Mensais (<span id="sim-months-label">60</span> meses)
+          </label>
+          <span class="text-xs font-semibold text-slate-500">Direto Construtora</span>
+        </div>
+        <input
+          type="range"
+          id="sim-months-slider"
+          min="24"
+          max="84"
+          step="12"
+          value="60"
+          class="w-full accent-navy-800 cursor-pointer"
+        />
+      </div>
+
+      <!-- Quantidade de Reforços Semestrais -->
+      <div>
+        <div class="flex justify-between items-center mb-2">
+          <label class="text-xs font-bold text-slate-700 uppercase tracking-wider">
+            Reforços / Balões Semestrais (<span id="sim-reinforcements-label">10</span>x)
+          </label>
+          <span class="text-xs font-semibold text-slate-500">A cada 6 meses</span>
+        </div>
+        <input
+          type="range"
+          id="sim-reinforcements-slider"
+          min="4"
+          max="14"
+          step="2"
+          value="10"
+          class="w-full accent-navy-800 cursor-pointer"
+        />
+      </div>
+
+    </div>
+
+    <!-- Results Box Column -->
+    <div class="lg:col-span-6 bg-slate-900 text-white rounded-2xl p-6 border border-navy-800 space-y-4 shadow-lg">
+      
+      <h4 class="text-sm font-bold text-gold-400 uppercase tracking-wider border-b border-navy-800 pb-3 flex items-center gap-2">
+        <Icons name="sparkles" size={16} />
+        <span>Estimativa de Fluxo Proposto</span>
+      </h4>
+
+      <div class="space-y-3 pt-1">
+        
+        <div class="flex items-center justify-between py-2 border-b border-navy-800/60">
+          <span class="text-xs text-slate-300">Entrada Sugerida:</span>
+          <span id="res-down-payment" class="text-base font-bold font-display text-white">R$ 300.000</span>
+        </div>
+
+        <div class="flex items-center justify-between py-2 border-b border-navy-800/60">
+          <span class="text-xs text-slate-300">Parcelas Mensais (<span id="res-months-count">60</span>x):</span>
+          <span id="res-monthly" class="text-base font-bold font-display text-emerald-400">R$ 15.000 / mês</span>
+        </div>
+
+        <div class="flex items-center justify-between py-2 border-b border-navy-800/60">
+          <span class="text-xs text-slate-300">Reforços Semestrais (<span id="res-reinforce-count">10</span>x):</span>
+          <span id="res-reinforcement" class="text-base font-bold font-display text-gold-300">R$ 30.000 / semestral</span>
+        </div>
+
+        <div class="flex items-center justify-between py-2">
+          <span class="text-xs text-slate-300">Saldo na Entrega das Chaves:</span>
+          <span id="res-keys" class="text-sm font-bold font-display text-slate-200">Consulte Tabela</span>
+        </div>
+
+      </div>
+
+      <p class="text-[11px] text-slate-400 leading-relaxed pt-2 italic">
+        * Simulação meramente ilustrativa. Condições sujeitas a correção pelo CUB/SC e aprovação de crédito junto à construtora.
+      </p>
+
+      <!-- Send to WhatsApp Button -->
+      <a
+        id="sim-whatsapp-btn"
+        href="#"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="w-full py-3 px-4 rounded-xl bg-whatsapp hover:bg-whatsapp-dark text-white text-xs font-bold text-center shadow-floating transition-all flex items-center justify-center gap-2 mt-4"
+      >
+        <Icons name="whatsapp" size={16} />
+        <span>Enviar Simulação para a Corretora</span>
+      </a>
+
+    </div>
+
+  </div>
+</section>
+
+<script is:inline define:vars={{ propertyTitle, whatsappNumber }}>
+  function initSimulator() {
+    const priceInput = document.getElementById('sim-price');
+    const downSlider = document.getElementById('sim-down-slider');
+    const monthsSlider = document.getElementById('sim-months-slider');
+    const reinforceSlider = document.getElementById('sim-reinforcements-slider');
+
+    const downPercentLabel = document.getElementById('sim-down-percent-label');
+    const downValLabel = document.getElementById('sim-down-val-label');
+    const monthsLabel = document.getElementById('sim-months-label');
+    const reinforceLabel = document.getElementById('sim-reinforcements-label');
+
+    const resDownPayment = document.getElementById('res-down-payment');
+    const resMonthly = document.getElementById('res-monthly');
+    const resMonthsCount = document.getElementById('res-months-count');
+    const resReinforceCount = document.getElementById('res-reinforce-count');
+    const resReinforcement = document.getElementById('res-reinforcement');
+    const whatsappBtn = document.getElementById('sim-whatsapp-btn');
+
+    function fmt(num) {
+      return new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL', maximumFractionDigits: 0 }).format(num);
+    }
+
+    function calculate() {
+      const price = parseFloat(priceInput?.value || '0') || 0;
+      const downPercent = parseInt(downSlider?.value || '20', 10);
+      const months = parseInt(monthsSlider?.value || '60', 10);
+      const reinforcements = parseInt(reinforceSlider?.value || '10', 10);
+
+      const downVal = price * (downPercent / 100);
+      const remaining = price - downVal;
+
+      // 60% of remaining in monthly, 40% in reinforcements
+      const monthlyTotal = remaining * 0.6;
+      const reinforceTotal = remaining * 0.4;
+
+      const monthlyVal = months > 0 ? monthlyTotal / months : 0;
+      const reinforceVal = reinforcements > 0 ? reinforceTotal / reinforcements : 0;
+
+      if (downPercentLabel) downPercentLabel.textContent = downPercent.toString();
+      if (downValLabel) downValLabel.textContent = fmt(downVal);
+      if (monthsLabel) monthsLabel.textContent = months.toString();
+      if (reinforceLabel) reinforceLabel.textContent = reinforcements.toString();
+
+      if (resDownPayment) resDownPayment.textContent = fmt(downVal);
+      if (resMonthly) resMonthly.textContent = `${fmt(monthlyVal)} / mês`;
+      if (resMonthsCount) resMonthsCount.textContent = months.toString();
+      if (resReinforceCount) resReinforceCount.textContent = reinforcements.toString();
+      if (resReinforcement) resReinforcement.textContent = `${fmt(reinforceVal)} / semestral`;
+
+      if (whatsappBtn) {
+        const text = `Olá Cátia! Fiz uma simulação para o imóvel *${propertyTitle}* no valor de ${fmt(price)}:
+- Entrada de ${downPercent}% (${fmt(downVal)})
+- ${months}x mensais estimadas em ${fmt(monthlyVal)}
+- ${reinforcements}x balões semestrais de ${fmt(reinforceVal)}
+Poderia me enviar a tabela oficial e disponibilidades deste empreendimento?`;
+
+        whatsappBtn.href = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(text)}`;
+      }
+    }
+
+    if (priceInput) priceInput.addEventListener('input', calculate);
+    if (downSlider) downSlider.addEventListener('input', calculate);
+    if (monthsSlider) monthsSlider.addEventListener('input', calculate);
+    if (reinforceSlider) reinforceSlider.addEventListener('input', calculate);
+
+    calculate();
+  }
+
+  document.addEventListener('DOMContentLoaded', initSimulator);
+</script>

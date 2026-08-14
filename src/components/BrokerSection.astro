@@ -1,0 +1,136 @@
+---
+import Icons from './Icons.astro';
+import { buildWhatsAppUrl } from '../utils/whatsapp';
+
+const whatsappUrl = buildWhatsAppUrl({
+  customMessage: 'Olá Cátia Backhaus! Gostaria de agendar uma consultoria imobiliária personalizada para investimentos no Litoral de SC.',
+});
+const basePath = '/CorretoraBackhaus';
+---
+
+<section id="sobre" class="py-20 bg-white relative overflow-hidden border-t border-slate-200">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
+      
+      <!-- Broker Image Column -->
+      <div class="lg:col-span-5 relative">
+        <div class="relative mx-auto max-w-md lg:max-w-none">
+          
+          <!-- Background decorative shapes -->
+          <div class="absolute -top-6 -left-6 w-72 h-72 bg-gold-200/50 rounded-3xl -rotate-6 filter blur-xl"></div>
+          <div class="absolute -bottom-6 -right-6 w-72 h-72 bg-navy-200/40 rounded-3xl rotate-6 filter blur-xl"></div>
+
+          <!-- Main Portrait Container -->
+          <div class="relative rounded-3xl overflow-hidden shadow-2xl border-4 border-white bg-slate-900 aspect-[4/5]">
+            <img
+              src={`${basePath}/images/catia-backhaus.jpg`}
+              alt="Cátia Backhaus - Corretora de Imóveis CRECI/SC"
+              class="w-full h-full object-cover object-top hover:scale-105 transition-transform duration-700"
+              loading="lazy"
+            />
+            
+            <!-- Bottom Float Badge -->
+            <div class="absolute bottom-4 left-4 right-4 bg-navy-950/90 backdrop-blur-md p-4 rounded-2xl border border-white/10 text-white shadow-lg">
+              <div class="flex items-center justify-between">
+                <div>
+                  <div class="text-base font-bold font-display text-white">Cátia Backhaus</div>
+                  <div class="text-xs text-gold-400 font-medium">Corretora de Imóveis • CRECI 81350</div>
+                </div>
+                <div class="w-9 h-9 rounded-xl bg-gold-500/20 border border-gold-500/40 flex items-center justify-center text-gold-400">
+                  <Icons name="award" size={18} />
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Content Column -->
+      <div class="lg:col-span-7 space-y-6">
+        
+        <!-- Badge -->
+        <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-navy-50 text-navy-900 border border-navy-200/60 text-xs font-bold uppercase tracking-wider">
+          <Icons name="shield-check" size={16} class="text-navy-700" />
+          <span>Atendimento Consultivo e Seguro</span>
+        </div>
+
+        <h2 class="text-3xl sm:text-4xl lg:text-5xl font-bold font-display text-slate-900 tracking-tight leading-tight">
+          Cátia Backhaus <br/><span class="text-navy-800">Seu Sonho Mora Aqui</span>
+        </h2>
+
+        <p class="text-slate-600 text-base sm:text-lg leading-relaxed">
+          Assessoria completa para você realizar o sonho do imóvel próprio ou fazer o melhor investimento imobiliário, com condições facilitadas pelo Minha Casa Minha Vida, financiamento Caixa e atendimento humanizado do início ao fim.
+        </p>
+
+        <!-- Pillars / Differentials -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
+          
+          <div class="p-4 rounded-2xl bg-slate-50 border border-slate-100 space-y-2">
+            <div class="w-8 h-8 rounded-xl bg-gold-500/10 text-gold-700 flex items-center justify-center font-bold">
+              <Icons name="sparkles" size={16} />
+            </div>
+            <h4 class="font-bold text-slate-900 text-sm">Financiamento Caixa Facilitado</h4>
+            <p class="text-xs text-slate-500 leading-relaxed">
+              Simulação personalizada com as melhores taxas do Minha Casa Minha Vida e uso do FGTS.
+            </p>
+          </div>
+
+          <div class="p-4 rounded-2xl bg-slate-50 border border-slate-100 space-y-2">
+            <div class="w-8 h-8 rounded-xl bg-navy-500/10 text-navy-700 flex items-center justify-center font-bold">
+              <Icons name="shield-check" size={16} />
+            </div>
+            <h4 class="font-bold text-slate-900 text-sm">Segurança & Construtoras Sólidas</h4>
+            <p class="text-xs text-slate-500 leading-relaxed">
+              Trabalhamos com construtoras certificadas PBQP-H e garantia de entrega da obra.
+            </p>
+          </div>
+
+          <div class="p-4 rounded-2xl bg-slate-50 border border-slate-100 space-y-2">
+            <div class="w-8 h-8 rounded-xl bg-emerald-500/10 text-emerald-700 flex items-center justify-center font-bold">
+              <Icons name="building" size={16} />
+            </div>
+            <h4 class="font-bold text-slate-900 text-sm">Entrada Facilitada na Planta</h4>
+            <p class="text-xs text-slate-500 leading-relaxed">
+              Planos de parcelamento direto da entrada durante a fase de obras da construtora.
+            </p>
+          </div>
+
+          <div class="p-4 rounded-2xl bg-slate-50 border border-slate-100 space-y-2">
+            <div class="w-8 h-8 rounded-xl bg-purple-500/10 text-purple-700 flex items-center justify-center font-bold">
+              <Icons name="phone" size={16} />
+            </div>
+            <h4 class="font-bold text-slate-900 text-sm">Atendimento VIP & Consultivo</h4>
+            <p class="text-xs text-slate-500 leading-relaxed">
+              Acompanhamento detalhado em todas as etapas, da aprovação de crédito à entrega das chaves.
+            </p>
+          </div>
+
+        </div>
+
+        <!-- Direct Contact CTA -->
+        <div class="pt-4 flex flex-wrap items-center gap-4">
+          <a
+            href={whatsappUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="px-7 py-3.5 rounded-xl bg-whatsapp hover:bg-whatsapp-dark text-white font-bold text-sm shadow-floating transition-all duration-200 flex items-center gap-2"
+          >
+            <Icons name="whatsapp" size={18} />
+            <span>Falar Diretamente com a Cátia</span>
+          </a>
+
+          <a
+            href="tel:+5551993835822"
+            class="px-6 py-3.5 rounded-xl border border-slate-200 hover:border-slate-300 bg-slate-50 hover:bg-slate-100 text-slate-700 font-semibold text-sm transition-colors flex items-center gap-2"
+          >
+            <Icons name="phone" size={16} />
+            <span>Ligue (51) 99383-5822</span>
+          </a>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+</section>

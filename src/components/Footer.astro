@@ -1,0 +1,94 @@
+---
+import Icons from './Icons.astro';
+import { buildWhatsAppUrl } from '../utils/whatsapp';
+
+const basePath = '/CorretoraBackhaus';
+const whatsappUrl = buildWhatsAppUrl();
+---
+
+<footer id="contato" class="bg-navy-950 text-white border-t border-navy-800/80 pt-16 pb-12">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10 lg:gap-12 pb-12 border-b border-navy-800/80">
+      
+      <!-- Brand & About (Span 5) -->
+      <div class="lg:col-span-5 space-y-4">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-gold-500 to-amber-600 flex items-center justify-center text-navy-950 font-bold shadow-glow">
+            <span class="font-display text-xl">B</span>
+          </div>
+          <div>
+            <div class="text-xl font-bold font-display tracking-tight text-white">
+              CORRETORA <span class="text-gold-400">BACKHAUS</span>
+            </div>
+            <div class="text-[11px] text-slate-400 font-medium tracking-wider uppercase">
+              Cátia Backhaus • CRECI 81350
+            </div>
+          </div>
+        </div>
+
+        <p class="text-sm text-slate-300 leading-relaxed max-w-md">
+          Assessoria imobiliária especializada em lançamentos, Minha Casa Minha Vida e investimentos seguros em Canoas e Região Metropolitana. Seu sonho mora aqui.
+        </p>
+
+        <div class="flex items-center gap-3 pt-2">
+          <a
+            href={whatsappUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="px-4 py-2 rounded-xl bg-whatsapp hover:bg-whatsapp-dark text-white text-xs font-bold shadow-floating transition-all flex items-center gap-2"
+          >
+            <Icons name="whatsapp" size={15} />
+            <span>Falar no WhatsApp</span>
+          </a>
+
+          <a
+            href="tel:+5551993835822"
+            class="px-4 py-2 rounded-xl bg-navy-900 hover:bg-navy-800 border border-navy-700 text-slate-300 hover:text-white text-xs font-semibold transition-colors flex items-center gap-2"
+          >
+            <Icons name="phone" size={14} class="text-gold-400" />
+            <span>(51) 99383-5822</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- Quick Links (Span 3) -->
+      <div class="lg:col-span-3 space-y-3">
+        <h4 class="text-sm font-bold font-display uppercase tracking-wider text-gold-400">Navegação Rápida</h4>
+        <ul class="space-y-2 text-xs font-medium text-slate-300">
+          <li><a href={`${basePath}/`} class="hover:text-gold-400 transition-colors">Início</a></li>
+          <li><a href={`${basePath}/#catalogo`} class="hover:text-gold-400 transition-colors">Catálogo de Empreendimentos</a></li>
+          <li><a href={`${basePath}/#sobre`} class="hover:text-gold-400 transition-colors">Sobre a Corretora</a></li>
+          <li><a href={`${basePath}/#contato`} class="hover:text-gold-400 transition-colors">Contato & Atendimento</a></li>
+        </ul>
+      </div>
+
+      <!-- Covered Regions (Span 4) -->
+      <div class="lg:col-span-4 space-y-3">
+        <h4 class="text-sm font-bold font-display uppercase tracking-wider text-gold-400">Regiões Atendidas</h4>
+        <p class="text-xs text-slate-300 leading-relaxed">
+          Atendimento especializado nos principais polos e bairros de Canoas e região:
+        </p>
+        <div class="flex flex-wrap gap-2 pt-1">
+          <span class="px-2.5 py-1 rounded-lg bg-navy-900 text-slate-300 text-xs border border-navy-800">Canoas (Estância Velha)</span>
+          <span class="px-2.5 py-1 rounded-lg bg-navy-900 text-slate-300 text-xs border border-navy-800">Canoas (Centro & Igara)</span>
+          <span class="px-2.5 py-1 rounded-lg bg-navy-900 text-slate-300 text-xs border border-navy-800">Cachoeirinha & Gravataí</span>
+          <span class="px-2.5 py-1 rounded-lg bg-navy-900 text-slate-300 text-xs border border-navy-800">Porto Alegre e Região</span>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Bottom Legal Bar -->
+    <div class="pt-8 flex flex-col md:flex-row items-center justify-between text-xs text-slate-400 gap-4">
+      <div>
+        © {new Date().getFullYear()} Corretora Backhaus. Todos os direitos reservados. CRECI 81350.
+      </div>
+
+      <div class="flex items-center gap-4 text-[11px] text-slate-400">
+        <span>Site 100% estático SSG</span>
+        <span>•</span>
+        <span>Hospedado no GitHub Pages</span>
+      </div>
+    </div>
+  </div>
+</footer>

@@ -1,0 +1,65 @@
+---
+import { getCollection } from 'astro:content';
+import Layout from '../layouts/Layout.astro';
+import Hero from '../components/Hero.astro';
+import PropertyCatalog from '../components/PropertyCatalog.astro';
+import BrokerSection from '../components/BrokerSection.astro';
+import Icons from '../components/Icons.astro';
+import { buildWhatsAppUrl } from '../utils/whatsapp';
+
+// Fetch all properties from Content Collections
+const allProperties = await getCollection('empreendimentos');
+
+// Sort by order ascending
+const sortedProperties = allProperties.sort((a, b) => (a.data.order || 99) - (b.data.order || 99));
+
+const whatsappUrl = buildWhatsAppUrl({
+  customMessage: 'Olá Cátia Backhaus! Gostaria de receber mais informações sobre os lançamentos em Canoas e Região Metropolitana.',
+});
+---
+
+<Layout
+  title="Corretora Backhaus | Seu Sonho Mora Aqui • CRECI 81350"
+  description="Encontre os melhores apartamentos e lançamentos em Canoas e Região Metropolitana. Consultoria especializada com Cátia Backhaus CRECI 81350."
+>
+  <!-- Hero Section -->
+  <Hero />
+
+  <!-- Full Property Catalog with Interactive Filtering -->
+  <PropertyCatalog properties={sortedProperties} />
+
+  <!-- Broker Biography & Credibility Section -->
+  <BrokerSection />
+
+  <!-- Bottom Direct Callout Banner -->
+  <section class="py-16 bg-gradient-to-r from-navy-950 via-navy-900 to-navy-950 text-white relative overflow-hidden border-t border-navy-800">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-6 relative z-10">
+      
+      <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-gold-500/20 text-gold-300 border border-gold-500/30 text-xs font-bold uppercase tracking-wider">
+        <Icons name="sparkles" size={14} class="text-gold-400" />
+        <span>Atendimento Sob Medida</span>
+      </div>
+
+      <h2 class="text-3xl sm:text-4xl lg:text-5xl font-bold font-display text-white">
+        Não encontrou exatamente o que procura?
+      </h2>
+
+      <p class="text-slate-300 text-base sm:text-lg max-w-2xl mx-auto leading-relaxed">
+        Temos acesso a unidades exclusivas, coberturas em pré-lançamento e oportunidades com condições direto com os proprietários e construtoras.
+      </p>
+
+      <div class="pt-4 flex flex-wrap items-center justify-center gap-4">
+        <a
+          href={whatsappUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="px-8 py-4 rounded-xl bg-whatsapp hover:bg-whatsapp-dark text-white font-bold text-sm shadow-floating transition-all duration-200 transform hover:-translate-y-0.5 flex items-center gap-2"
+        >
+          <Icons name="whatsapp" size={20} />
+          <span>Solicitar Imóvel Personalizado no WhatsApp</span>
+        </a>
+      </div>
+
+    </div>
+  </section>
+</Layout>
