@@ -20,13 +20,13 @@ async function optimizeBrokerImage() {
   if (fs.existsSync(brokerSourceImg)) {
     console.log('📸 Otimizando foto da corretora...');
     await sharp(brokerSourceImg)
-      .resize(1000, 1000, { fit: 'cover', position: 'top' })
-      .jpeg({ quality: 88, progressive: true })
+      .resize(1200, null, { fit: 'inside', withoutEnlargement: true })
+      .jpeg({ quality: 90, progressive: true })
       .toFile(path.join(targetPublicDir, 'catia-backhaus.jpg'));
     
     // Also keep an original copy
     fs.copyFileSync(brokerSourceImg, path.join(targetPublicDir, 'corretor-original.jpg'));
-    console.log('✅ Foto da corretora otimizada com sucesso.');
+    console.log('✅ Foto da corretora otimizada com sucesso sem cortes.');
   }
 }
 
