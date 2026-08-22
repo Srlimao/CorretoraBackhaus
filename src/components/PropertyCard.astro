@@ -12,7 +12,7 @@ export interface Props {
 
 const { property } = Astro.props;
 const { data, slug } = property;
-const basePath = '/CorretoraBackhaus';
+const basePath = import.meta.env.BASE_URL.replace(/\/$/, '');
 
 const thumbnail = getPropertyThumbnail(slug);
 const statusBadge = getStatusBadgeInfo(data.status);

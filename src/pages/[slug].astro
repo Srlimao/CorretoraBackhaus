@@ -14,7 +14,7 @@ export interface Props {
 }
 
 const { property } = Astro.props;
-const basePath = '/CorretoraBackhaus';
+const basePath = import.meta.env.BASE_URL.replace(/\/$/, '');
 const targetUrl = `${basePath}/empreendimentos/${property.slug}`;
 ---
 
@@ -24,7 +24,7 @@ const targetUrl = `${basePath}/empreendimentos/${property.slug}`;
     <meta charset="UTF-8" />
     <meta http-equiv="refresh" content={`0;url=${targetUrl}`} />
     <title>Redirecionando para {property.data.title}...</title>
-    <link rel="canonical" href={`https://srlimao.github.io${targetUrl}`} />
+    <link rel="canonical" href={`https://www.backhausimoveis.com.br${targetUrl}`} />
   </head>
   <body class="bg-slate-900 text-white flex items-center justify-center min-h-screen">
     <div class="text-center space-y-4">

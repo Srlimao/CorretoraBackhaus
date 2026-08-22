@@ -3,8 +3,8 @@ import tailwind from '@astrojs/tailwind';
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://srlimao.github.io',
-  base: '/CorretoraBackhaus',
+  site: 'https://www.backhausimoveis.com.br',
+  base: '/',
   integrations: [tailwind({
     applyBaseStyles: false,
   })],

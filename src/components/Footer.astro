@@ -2,7 +2,7 @@
 import Icons from './Icons.astro';
 import { buildWhatsAppUrl } from '../utils/whatsapp';
 
-const basePath = '/CorretoraBackhaus';
+const basePath = import.meta.env.BASE_URL.replace(/\/$/, '');
 const whatsappUrl = buildWhatsAppUrl();
 ---
 

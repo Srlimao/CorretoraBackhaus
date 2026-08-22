@@ -2,7 +2,7 @@
 import Layout from '../layouts/Layout.astro';
 import Icons from '../components/Icons.astro';
 
-const basePath = '/CorretoraBackhaus';
+const basePath = import.meta.env.BASE_URL.replace(/\/$/, '');
 ---
 
 <Layout

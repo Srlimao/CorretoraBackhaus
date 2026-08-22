@@ -5,7 +5,7 @@ import { buildWhatsAppUrl } from '../utils/whatsapp';
 const whatsappUrl = buildWhatsAppUrl({
   customMessage: 'Olá Cátia Backhaus! Gostaria de agendar uma consultoria imobiliária personalizada para investimentos no Litoral de SC.',
 });
-const basePath = '/CorretoraBackhaus';
+const basePath = import.meta.env.BASE_URL.replace(/\/$/, '');
 ---
 
 <section id="sobre" class="py-20 bg-white relative overflow-hidden border-t border-slate-200">

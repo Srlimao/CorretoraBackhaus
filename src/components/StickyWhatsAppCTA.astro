@@ -21,7 +21,7 @@ const {
   deliveryDate,
 } = Astro.props;
 
-const basePath = '/CorretoraBackhaus';
+const basePath = import.meta.env.BASE_URL.replace(/\/$/, '');
 
 const whatsappInquiryUrl = buildWhatsAppUrl({
   phone: whatsappNumber,
