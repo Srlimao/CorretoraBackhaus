@@ -17,7 +17,10 @@ Thumbs.db
 .vscode/
 .idea/
 
-# Large temporary archives and raw images in docs
+# Large temporary archives, raw documents and heavy assets in docs
+docs/empreendimentos/
 docs/**/*.zip
 docs/**/*.rar
 docs/**/*.png
+docs/**/*.pdf
+
