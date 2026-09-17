@@ -3,6 +3,7 @@ title: "Linq Your Place"
 tagline: "Seu link com o melhor lugar para viver: apartamentos de 2 dormitórios com sacada, churrasqueira e Mall de conveniências no Igara."
 status: "Lancamento"
 category: "Residencial"
+priceFrom: 280000
 location:
   neighborhood: "Igara"
   city: "Canoas"

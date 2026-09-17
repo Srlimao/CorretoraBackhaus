@@ -3,6 +3,7 @@ title: "Ora Condomínio Residencial"
 tagline: "O tempo a seu favor: apartamentos de 2 e 3 dormitórios com sacada gourmet e infraestrutura de lazer completa em Canoas."
 status: "Lancamento"
 category: "Residencial"
+priceFrom: 290500
 location:
   neighborhood: "Igara"
   city: "Canoas"

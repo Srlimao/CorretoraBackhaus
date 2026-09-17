@@ -1,8 +1,9 @@
 ---
 title: "Residencial Áres"
-tagline: "Torre imponente no Centro de Canoas com 15 andares, rooftop de lazer completo, lojas no térreo e plantas com suíte."
+tagline: "Torre imponente no Centro de Canoas com opções de 2 e 3 dormitórios com suíte, rooftop de lazer completo e lojas no térreo."
 status: "Lancamento"
 category: "Residencial"
+priceFrom: 385000
 location:
   neighborhood: "Centro"
   city: "Canoas"

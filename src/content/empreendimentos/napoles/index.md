@@ -3,7 +3,7 @@ title: "Residencial Nápoles"
 tagline: "Clube residencial com infraestrutura completa de lazer e centro comercial em Canoas/RS."
 status: "Lancamento"
 category: "Residencial"
-priceFrom: 229000
+priceFrom: 273000
 location:
   neighborhood: "Estância Velha"
   city: "Canoas"

@@ -113,13 +113,15 @@ const whatsappUrl = buildWhatsAppUrl({
         <span class="text-[10px] text-slate-400 uppercase">Privativos</span>
       </div>
 
-      <!-- Bedrooms / Suites -->
+      <!-- Bedrooms -->
       <div class="flex flex-col items-center text-center p-2 rounded-xl bg-slate-50 border border-slate-100">
         <Icons name="bed" size={16} class="text-navy-600 mb-1" />
         <span class="font-bold text-slate-800 text-[11px] sm:text-xs">
-          {data.specs.suites && data.specs.suites.length > 0 ? formatSuites(data.specs.suites) : formatBedrooms(data.specs.bedrooms)}
+          {formatBedrooms(data.specs.bedrooms)}
         </span>
-        <span class="text-[10px] text-slate-400 uppercase">Dormitórios</span>
+        <span class="text-[10px] text-slate-400 uppercase">
+          {data.specs.suites && data.specs.suites.length > 0 ? (data.specs.suites[0] === 1 ? 'Opção c/ Suíte' : 'Opções c/ Suítes') : 'Dormitórios'}
+        </span>
       </div>
 
       <!-- Parking -->

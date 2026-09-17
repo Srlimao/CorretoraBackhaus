@@ -27,6 +27,9 @@ export function formatBedrooms(bedrooms: number[]): string {
     return `${num} ${num === 1 ? 'Dormitório' : 'Dormitórios'}`;
   }
   const sorted = [...bedrooms].sort((a, b) => a - b);
+  if (sorted.length === 2 && sorted[1] === sorted[0] + 1) {
+    return `${sorted[0]} e ${sorted[1]} Dormitórios`;
+  }
   return `${sorted[0]} a ${sorted[sorted.length - 1]} Dormitórios`;
 }
 

@@ -172,6 +172,23 @@ const propertyConfigs = [
       { src: '07.FLEX_PH 3 DORMITORIOS COM VARANDA.png', destGallery: '19-planta-3-dormitorios-com-varanda.jpg' },
       { src: '02.FLEX_PH DECORADO.png', destGallery: '20-planta-decorada.jpg' },
     ]
+  },
+  {
+    slug: 'mezzano',
+    sourceDir: path.join(docsDir, 'Mezzano'),
+    mappings: [
+      { src: 'Mezzano - Fachada.png', destThumb: true, destGallery: '01-fachada-principal.jpg' },
+      { src: 'Mezzano - Fachada 2.png', destGallery: '02-fachada-angulada.jpg' },
+      { src: 'Mezzano - Fachada 3.png', destGallery: '03-perspectiva-fachada.jpg' },
+      { src: 'Mezzano - Rooftop.png', destGallery: '04-rooftop-lazer.jpg' },
+      { src: 'Mezzano - Piscina.png', destGallery: '05-piscina-rooftop.jpg' },
+      { src: 'Mezzano - Por Do Sol.png', destGallery: '06-por-do-sol-rooftop.jpg' },
+      { src: 'Mezzano - Gourmet.png', destGallery: '07-espaco-gourmet.jpg' },
+      { src: 'Mezzano - Academia.png', destGallery: '08-academia-fitness.jpg' },
+      { src: 'Mezzano - Kids.png', destGallery: '09-espaco-kids.jpg' },
+      { src: 'Mezzano - Lounge 2 pavimento 1.png', destGallery: '10-lounge-2-pavimento.jpg' },
+      { src: 'Mezzano - Lounge 2 pavimento 2.png', destGallery: '11-lounge-estar-social.jpg' },
+    ]
   }
 ];
 

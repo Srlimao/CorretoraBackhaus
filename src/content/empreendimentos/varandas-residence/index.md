@@ -1,8 +1,9 @@
 ---
 title: "Varandas Residence"
-tagline: "Arquitetura contemporânea com amplas varandas gourmet, rooftop com piscina, cinema privativo e sofisticação em Canoas."
+tagline: "Apartamentos de 2 e 3 dormitórios com amplas varandas gourmet, rooftop com piscina suspensa, cinema privativo e sofisticação em Canoas."
 status: "Lancamento"
 category: "Alto Padrao"
+priceFrom: 532000
 location:
   neighborhood: "Marechal Rondon"
   city: "Canoas"
